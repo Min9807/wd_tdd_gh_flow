@@ -57,11 +57,38 @@ public class AppTests {
     }
     // 앱 테스트 끝
 
-   // Test
-//    @DisplayName("등록화면에서 명언과 작가를 입력 받는다.")
-//    public void t5(){
-//        String rs = AppTestRunner.run
-//    }
+    @Test
+    @DisplayName("등록화면에서 명언과 작가를 입력 받고, 명언을 생성한다.")
+    public void t5(){
+        String rs = AppTestRunner.run("""
+                등록
+                현재를 사랑하라
+                작자미상
+                """);
+        assertThat(rs)
+                .contains("명언 : ")
+                .contains("작가 : ")
+                .contains("1번 명언이 등록되었습니다.");
+    }
 
-
+    @Test
+    @DisplayName("명언이 등록될 때 마다 생성되는 명언의 번호가 1씩 증가한다.")
+    public void t6(){
+        String rs = AppTestRunner.run("""
+                등록
+                현재를 사랑하라
+                작자미상
+                등록
+                나의 죽음을 적들에게 알리지 마라.
+                이순신
+                등록
+                왼손은 거들뿐
+                강백호
+                """);
+        assertThat(rs)
+                .contains("1번 명언이 등록되었습니다.")
+                .contains("2번 명언이 등록되었습니다.")
+                .contains("2번 명언이 등록되었습니다.")
+                .doesNotContain("4번 명언이 등록되었습니다.");
+    }
 }
